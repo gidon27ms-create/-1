@@ -119,10 +119,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double frontLeftPower  = 0.5 ;
-            double frontRightPower = 0.5 ;
-            double backLeftPower   = 0.5 ;
-            double backRightPower  = 0.5 ;
+            double frontLeftPower  = -0.5 ;
+            double frontRightPower = -0.5 ;
+            double backLeftPower   = -0.5 ;
+            double backRightPower  = -0.5 ;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -131,11 +131,16 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             max = Math.max(max, Math.abs(backRightPower));
 
             if (max > 1.0) {
-                frontLeftPower  /= 0.5;
-                frontRightPower /= 0.5;
-                backLeftPower   /= 0.5;
-                backRightPower  /= 0.5;
+                frontLeftPower  /= -0.5;
+                frontRightPower /= -0.5;
+                backLeftPower   /= -0.5;
+                backRightPower  /= -0.5;
             }
+            if (gamepad1.left_stick_y == 0)
+                frontLeftPower  /= -0;
+                frontRightPower /= -0;
+                backLeftPower   /= -0;
+                backRightPower  /= -0;
 
             // This is test code:
             //
