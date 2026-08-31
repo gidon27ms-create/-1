@@ -99,6 +99,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
 
+
+        backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -108,7 +114,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            double max;
+            double max = 0 ;
 
             double rightStickX = gamepad1.right_stick_x;
             double rightStickY = gamepad1.right_stick_y;
@@ -119,10 +125,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double frontLeftPower  = -0.5 ;
-            double frontRightPower = -0.5 ;
-            double backLeftPower   = -0.5 ;
-            double backRightPower  = -0.5 ;
+            double frontLeftPower  = -max ;
+            double frontRightPower = -max ;
+            double backLeftPower   = max ;
+            double backRightPower  = max ;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -131,17 +137,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             max = Math.max(max, Math.abs(backRightPower));
 
             if (gamepad1.left_stick_y > 1.0) {
-                frontLeftPower  /= max * gamepad1.left_stick_y ;
-                frontRightPower /= max * gamepad1.left_stick_y;
+                frontLeftPower  /= -max * gamepad1.left_stick_y ;
+                frontRightPower /= -max * gamepad1.left_stick_x;
                 backLeftPower   /= max * gamepad1.left_stick_y;
-                backRightPower  /= max * gamepad1.left_stick_y;
+                backRightPower  /= max * gamepad1.left_stick_x;
             }
-            if (gamepad1.left_stick_y == 0) {
-                frontLeftPower /= -0;
-                frontRightPower /= -0;
-                backLeftPower /= -0;
-                backRightPower /= -0;
-            }
+
 
             // This is test code:
             //
@@ -161,10 +162,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             */
 
             // Send calculated power to wheels
-            frontLeftDrive.setPower(0.5);
-            frontRightDrive.setPower(0.5);
-            backLeftDrive.setPower(0.5);
-            backRightDrive.setPower(0.5);
+            frontLeftDrive.setPower(-max);
+            frontRightDrive.setPower(-max);
+            backLeftDrive.setPower(-max);
+            backRightDrive.setPower(-max);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
