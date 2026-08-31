@@ -136,11 +136,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 backLeftPower   /= max * gamepad1.left_stick_y;
                 backRightPower  /= max * gamepad1.left_stick_y;
             }
-            if (gamepad1.left_stick_y == 0)
-                frontLeftPower  /= -0;
+            if (gamepad1.left_stick_y == 0) {
+                frontLeftPower /= -0;
                 frontRightPower /= -0;
-                backLeftPower   /= -0;
-                backRightPower  /= -0;
+                backLeftPower /= -0;
+                backRightPower /= -0;
+            }
 
             // This is test code:
             //
